@@ -41,6 +41,7 @@ yarn run test:unit
 
 ```sh
 yarn run lint
+<<<<<<< HEAD
 ```
 
 ### Instruções de Deploy
@@ -77,3 +78,6 @@ https://github.com/ByteScratchers/aeroclube_web/pull/54/files
 npx unimported
 ```
 >>>>>>> 197a099 (fix: Ajuste na estrutura do projeto)
+=======
+```
+>>>>>>> 1965f46 (fix: Ajuste no README.md)
