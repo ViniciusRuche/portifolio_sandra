@@ -1,7 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # base_portifolio
 =======
 # aeroclube-web
+=======
+# portifolio-web
+>>>>>>> 892e8c2 (fix: Ajuste no README.md)
 
 Este template deve ajudar você a começar a desenvolver com Vue 3 no Vite.
 
