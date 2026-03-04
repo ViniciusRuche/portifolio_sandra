@@ -25,9 +25,9 @@ const [mensagem, mensagemProps] = defineField('mensagem')
 const onSubmit = handleSubmit(async (values) => {
   isSubmitting.value = true
   try {
-    const serviceID = 'service_pfb30ho'
-    const templateID = 'template_s0y709o'
-    const publicKey = 'RHiTEAEH7-qjyyoMo'
+    const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID
+    const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
     await emailjs.send(
       serviceID, 
