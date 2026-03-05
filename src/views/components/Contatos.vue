@@ -1,17 +1,16 @@
 <script setup>
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { Send, Mail, MessageSquare, User, Loader2 } from 'lucide-vue-next'
+import { MessageCircle, Mail, MapPin, User, Send } from 'lucide-vue-next'
 import { ref } from 'vue'
-import emailjs from '@emailjs/browser'
 
-const isSubmitting = ref(false)
 const isSuccess = ref(false)
 
+// Schema de validação adaptado
 const schema = yup.object({
-  nome: yup.string().required('Nome é obrigatório').min(3, 'Nome muito curto'),
-  email: yup.string().required('E-mail é obrigatório').email('E-mail inválido'),
-  mensagem: yup.string().required('A mensagem não pode estar vazia').min(10, 'Conte-me um pouco mais'),
+  nome: yup.string().required('Seu nome é obrigatório').min(3, 'Nome muito curto'),
+  servico: yup.string().required('Selecione o serviço de interesse'),
+  mensagem: yup.string().required('Conte-me como posso ajudar').min(10, 'A mensagem está muito curta'),
 })
 
 const { defineField, handleSubmit, errors, resetForm } = useForm({
@@ -19,44 +18,28 @@ const { defineField, handleSubmit, errors, resetForm } = useForm({
 })
 
 const [nome, nomeProps] = defineField('nome')
-const [email, emailProps] = defineField('email')
+const [servico, servicoProps] = defineField('servico')
 const [mensagem, mensagemProps] = defineField('mensagem')
 
-const onSubmit = handleSubmit(async (values) => {
-  isSubmitting.value = true
-  try {
-    const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-
-    await emailjs.send(
-      serviceID, 
-      templateID, 
-      {
-        name: values.nome,
-        title: 'Nova mensagem do portfólio',
-        email: values.email,
-        message: values.mensagem,
-      }, 
-      publicKey
-    )
-    isSuccess.value = true
-    resetForm()
-    setTimeout(() => {
-      isSuccess.value = false
-    }, 5000)
-  } catch (error) {
-    console.error('Erro ao enviar mensagem:', error)
-  } finally {
-    isSubmitting.value = false
-  }
-
+const onSubmit = handleSubmit((values) => {
+  const fone = '5554999956357' 
+  const texto = `Olá Sandra! Me chamo *${values.nome}*.\n\n` +
+                `*Assunto:* ${values.servico}\n` +
+                `*Mensagem:* ${values.mensagem}`
+  
+  const wpLink = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`
+  
+  window.open(wpLink, '_blank')
+  isSuccess.value = true
+  resetForm()
+  
+  setTimeout(() => { isSuccess.value = false }, 5000)
 })
 </script>
 
 <template>
-  <section id="contato" class="py-24 bg-[#050505] relative overflow-hidden">
-    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-600/10 blur-[120px] rounded-full -z-10"></div>
+  <section id="contato" class="py-24 bg-white relative overflow-hidden">
+    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-600/5 blur-[120px] rounded-full -z-10"></div>
 
     <div class="container mx-auto px-6">
       <div class="max-w-4xl mx-auto">
@@ -65,70 +48,71 @@ const onSubmit = handleSubmit(async (values) => {
           
           <div class="space-y-8">
             <div class="space-y-4">
-              <h2 class="text-4xl font-black tracking-tighter text-white italic">
-                VAMOS <span class="text-indigo-500">CONVERSAR?</span>
+              <h4 class="text-emerald-600 font-bold tracking-[0.3em] text-xs uppercase">Contato</h4>
+              <h2 class="text-4xl font-serif text-slate-800 leading-tight">
+                Vamos iniciar sua <span class="text-emerald-600 italic font-normal">jornada?</span>
               </h2>
-              <p class="text-slate-400 leading-relaxed">
-                Interessado em colaborar em um projeto, tirar dúvidas sobre minha trajetória na UCS ou apenas dizer um "olá"? Sinta-se à vontade para me enviar uma mensagem.
+              <p class="text-slate-500 leading-relaxed">
+                Tire suas dúvidas ou agende sua consulta diretamente pelo WhatsApp. Estou localizada no Centro Comercial Metropolitan, pronta para te atender.
               </p>
             </div>
 
             <div class="space-y-4">
-              <div class="flex items-center gap-4 text-slate-300">
-                <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-indigo-400">
+              <div class="flex items-center gap-4 text-slate-600">
+                <div class="w-10 h-10 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
                   <Mail size="18" />
                 </div>
-                <span class="text-sm font-medium">ruchecontato@gmail.com</span>
+                <span class="text-sm font-medium">sandra.auriculo@gmail.com</span>
               </div>
-              <div class="flex items-center gap-4 text-slate-300">
-                <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-emerald-400">
-                  <MessageSquare size="18" />
+              <div class="flex items-center gap-4 text-slate-600">
+                <div class="w-10 h-10 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
+                  <MapPin size="18" />
                 </div>
-                <span class="text-sm font-medium">Caxias do Sul, RS</span>
+                <span class="text-sm font-medium italic">Rua Pinheiro Machado, Nº 2705, sala 703.</span>
               </div>
             </div>
           </div>
 
           <div class="relative">
-            <form @submit="onSubmit" class="space-y-5 p-8 bg-white/[0.02] border border-white/10 rounded-3xl backdrop-blur-md">
+            <form @submit="onSubmit" class="space-y-5 p-8 bg-slate-50 border border-emerald-50 rounded-[2.5rem] shadow-sm">
               
               <div class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Nome</label>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Seu Nome</label>
                 <div class="relative">
-                  <User class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size="18" />
-                  <input v-model="nome" v-bind="nomeProps" type="text" placeholder="Seu nome"
-                    class="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all" />
+                  <User class="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600/40" size="18" />
+                  <input v-model="nome" v-bind="nomeProps" type="text" placeholder="Como te chamamos?"
+                    class="w-full bg-white border border-slate-100 rounded-xl py-3 pl-12 pr-4 text-slate-700 focus:outline-none focus:border-emerald-500/50 transition-all shadow-sm" />
                 </div>
                 <span class="text-[10px] text-red-400 font-bold uppercase ml-1">{{ errors.nome }}</span>
               </div>
 
               <div class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">E-mail</label>
-                <div class="relative">
-                  <Mail class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size="18" />
-                  <input v-model="email" v-bind="emailProps" type="email" placeholder="seu@email.com"
-                    class="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all" />
-                </div>
-                <span class="text-[10px] text-red-400 font-bold uppercase ml-1">{{ errors.email }}</span>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Serviço de Interesse</label>
+                <select v-model="servico" v-bind="servicoProps" 
+                  class="w-full bg-white border border-slate-100 rounded-xl py-3 px-4 text-slate-700 focus:outline-none focus:border-emerald-500/50 transition-all shadow-sm appearance-none">
+                  <option value="" disabled selected>Escolha uma opção</option>
+                  <option value="Auriculoterapia">Auriculoterapia</option>
+                  <option value="Massoterapia">Massoterapia</option>
+                  <option value="Liberação Miofascial">Liberação Miofascial</option>
+                  <option value="Outros">Outros</option>
+                </select>
+                <span class="text-[10px] text-red-400 font-bold uppercase ml-1">{{ errors.servico }}</span>
               </div>
 
               <div class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Mensagem</label>
-                <textarea v-model="mensagem" v-bind="mensagemProps" rows="4" placeholder="Como posso ajudar?"
-                  class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all resize-none"></textarea>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Mensagem</label>
+                <textarea v-model="mensagem" v-bind="mensagemProps" rows="4" placeholder="Conte-me brevemente sobre você..."
+                  class="w-full bg-white border border-slate-100 rounded-xl py-3 px-4 text-slate-700 focus:outline-none focus:border-emerald-500/50 transition-all resize-none shadow-sm"></textarea>
                 <span class="text-[10px] text-red-400 font-bold uppercase ml-1">{{ errors.mensagem }}</span>
               </div>
 
-              <button type="submit" :disabled="isSubmitting"
-                class="w-full h-12 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold hover:opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-50">
-                <Loader2 v-if="isSubmitting" class="animate-spin" size="20" />
-                <template v-else>
-                  Enviar Mensagem <Send size="18" />
-                </template>
+              <button type="submit"
+                class="w-full h-12 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2">
+                Conversar no WhatsApp <MessageCircle size="18" />
               </button>
 
-              <div v-if="isSuccess" class="p-3 bg-emerald-500/20 border border-emerald-500/50 rounded-xl text-emerald-400 text-sm text-center font-bold animate-in fade-in zoom-in">
-                Mensagem enviada com sucesso!
+              <div v-if="isSuccess" class="p-3 bg-emerald-50 border border-emerald-100 rounded-xl text-emerald-600 text-sm text-center font-bold">
+                Redirecionando para o WhatsApp...
               </div>
 
             </form>
@@ -139,3 +123,8 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
   </section>
 </template>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+.font-serif { font-family: 'Playfair Display', serif; }
+</style>
