@@ -12,7 +12,7 @@ import { HeartPulse, MapPin, Award, Activity } from 'lucide-vue-next'
           
           <div class="relative bg-white rounded-3xl overflow-hidden shadow-2xl border border-emerald-100">
             <img 
-              src="@/assets/sobre-mim.png" 
+              src="/images/sobre-mim.png" 
               alt="Sandra Oliveira" 
               class="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-105"
             />

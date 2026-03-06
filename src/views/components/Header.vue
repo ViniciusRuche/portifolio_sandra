@@ -3,7 +3,7 @@
     
     <div class="absolute inset-0 z-0">
       <img 
-        src="@/assets/perfil.png" 
+        src="/images/perfil.png" 
         alt="Sandra Oliveira" 
         class="w-full h-full object-cover object-center"
       />
