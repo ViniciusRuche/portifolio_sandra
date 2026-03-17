@@ -1,3 +1,28 @@
+<script setup>
+import { ChevronRight, Facebook, Instagram, MessagesSquare } from 'lucide-vue-next'
+
+const handleWhatsAppClick = () => {
+  const fone = '5554999956357'
+  const texto = "Olá! Gostaria de marcar um horário com você."
+  const wpLink = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`
+  
+  window.open(wpLink, '_blank')
+}
+
+const handleInstagramClick = () => {
+  const arroba = 'clinicasandraoliveira'
+  const instaLink = `https://www.instagram.com/${arroba}`
+  
+  window.open(instaLink, '_blank')
+}
+
+const handleFacebookClick = () => {
+  const arroba = 'sandraoliveiraauriculoterapia'
+  const faceLink = `https://www.facebook.com/${arroba}`
+  
+  window.open(faceLink, '_blank')
+}
+</script>
 <template>
   <section class="relative w-full h-screen min-h-[600px] flex items-end justify-center overflow-hidden">
     <div class="absolute inset-0 z-0">
@@ -25,15 +50,15 @@
           </a>
           
           <div class="flex gap-2">
-            <a href="https://www.instagram.com/clinicasandraoliveira" target="_blank" rel="noopener noreferrer"
+            <a @click.prevent="handleInstagramClick" rel="noopener noreferrer"
               class="w-12 h-12 flex items-center justify-center rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
               <Instagram class="w-5 h-5 text-white" />
             </a>
-            <a href="https://www.facebook.com/sandraoliveiraauriculoterapia?mibextid=b06tZ0" target="_blank" rel="noopener noreferrer"
+            <a @click.prevent="handleFacebookClick" rel="noopener noreferrer"
               class="w-12 h-12 flex items-center justify-center rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
               <Facebook class="w-5 h-5 text-white" />
             </a>
-            <a href="https://wa.me/5554999956357?text=Eu%20gostaria%20de%20agendar%20um%20hor%C3%A1rio." target="_blank" rel="noopener noreferrer"
+            <a @click.prevent="handleWhatsAppClick" rel="noopener noreferrer"
               class="w-12 h-12 flex items-center justify-center rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors">
               <MessagesSquare class="w-5 h-5 text-white" />
             </a>
@@ -42,9 +67,6 @@
     </div>
   </section>
 </template>
-<script setup>
-import { ChevronRight, Facebook, Instagram, MessagesSquare } from 'lucide-vue-next'
-</script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500&display=swap');
 

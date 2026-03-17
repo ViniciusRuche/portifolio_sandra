@@ -22,7 +22,6 @@ const handleFacebookClick = () => {
   
   window.open(faceLink, '_blank')
 }
-
 </script>
 <template>
 <footer class="bg-white py-16 border-t border-slate-100">
