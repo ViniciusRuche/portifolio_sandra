@@ -9,6 +9,14 @@ import Contatos from '@/views/components/Contatos.vue'
 import Separator from '@/components/ui/separator/Separator.vue'
 import Profissional from './components/Profissional.vue'
 import { Facebook, Instagram, MessageCircle } from 'lucide-vue-next'
+
+const handleWhatsAppClick = () => {
+  const fone = '5554999956357'
+  const texto = "Olá! Gostaria de marcar um horário com você."
+  const wpLink = `https://api.whatsapp.com/send?phone=${fone}&text=${encodeURIComponent(texto)}`
+  
+  window.open(wpLink, '_blank')
+}
 </script>
 
 <template>
@@ -47,13 +55,13 @@ import { Facebook, Instagram, MessageCircle } from 'lucide-vue-next'
         <div class="space-y-4">
           <h4 class="text-slate-800 font-bold text-xs uppercase tracking-widest">Siga-nos</h4>
           <div class="flex justify-center md:justify-start gap-6">
-            <a href="#" class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all">
+            <a href="https://www.instagram.com/clinicasandraoliveira" class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all">
               <Instagram size="20" />
             </a>
-            <a href="#" class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all">
+            <a href="https://www.facebook.com/sandraoliveiraauriculoterapia?mibextid=b06tZ0" class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all">
               <Facebook size="20" />
             </a>
-            <a href="#" class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all">
+            <a @click.prevent="handleWhatsAppClick" class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all">
               <MessageCircle size="20" />
             </a>
           </div>
