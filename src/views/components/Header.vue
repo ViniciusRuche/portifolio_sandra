@@ -1,6 +1,5 @@
 <template>
   <section class="relative w-full h-screen min-h-[600px] flex items-end justify-center overflow-hidden">
-    
     <div class="absolute inset-0 z-0">
       <img 
         src="/images/perfil.png" 
